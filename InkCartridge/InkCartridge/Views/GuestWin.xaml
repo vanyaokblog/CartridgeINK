@@ -1,0 +1,24 @@
+﻿<Window x:Class="InkCartridge.Views.GuestWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:InkCartridge.Views"
+        mc:Ignorable="d"
+        Title="Окно Гостя" Height="720" Width="1280" Background="#FFB7D0D0" ResizeMode="NoResize">
+    <Grid>
+        <TextBlock FontFamily="./Fonts/#Montserrat SemiBold" TextAlignment="Center" FontSize="32" Margin="0,10,0,0">Cartridge INK</TextBlock>
+        <TextBlock FontFamily="./Fonts/#Montserrat" TextAlignment="Center" FontSize="12" Margin="0,46,0,0">система управления картриджами</TextBlock>
+        <DataGrid x:Name="CartridgesDataGrid" AutoGenerateColumns="False" Background="#FFB7D0D0" Margin="0,81,0,0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding IdCartridge}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Тип" Binding="{Binding TypeCartridge.NameType}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Модель" Binding="{Binding Model}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Серийный номер" Binding="{Binding SerialNumber}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Дата установки" Binding="{Binding InstallationDate, StringFormat=dd/MM/yyyy HH:mm:ss}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Status.NameStatus}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
