@@ -10,6 +10,9 @@
         <TextBlock FontFamily="./Fonts/#Montserrat SemiBold" TextAlignment="Center" FontSize="32" Margin="0,10,0,0">Cartridge INK</TextBlock>
         <TextBlock FontFamily="./Fonts/#Montserrat" TextAlignment="Center" FontSize="12" Margin="0,46,0,0">система управления картриджами</TextBlock>
         <Button Margin="1056,14,48,645" x:Name="AddUser" FontFamily="./Fonts/#Montserrat Medium" Click="AddUser_Click">Добавить пользователя</Button>
+        <Label FontFamily="./Fonts/#Montserrat" Content="Введите серийный номер:" HorizontalAlignment="Left" Margin="5,8,0,0" VerticalAlignment="Top"/>
+        <TextBox FontFamily="./Fonts/#Montserrat" FontSize="15"  Name="SerialNumberTextBox" HorizontalAlignment="Left" Height="23" Margin="10,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="166" BorderBrush="#FF707070"/>
+        <Button FontFamily="./Fonts/#Montserrat" x:Name="SearchButton" Content="Поиск" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" Click="SearchButton_Click"  Height="23" Margin="180,30,0,0"  />
         <DataGrid x:Name="CartridgesDataGrid" AutoGenerateColumns="False" Background="#FFB7D0D0" Margin="0,81,0,0" CellEditEnding="CartridgesDataGrid_CellEditEnding">
             <DataGrid.ContextMenu>
                 <ContextMenu>

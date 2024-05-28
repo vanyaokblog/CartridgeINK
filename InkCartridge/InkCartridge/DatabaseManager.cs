@@ -147,5 +147,53 @@ namespace InkCartridge
             cartridge.IdStatus = (int)newStatusId;
             cartridge.Status.NameStatus = newStatusName;
         }
+
+        // Метод для поиска картриджа по серийному номеру в базе данных
+        public static Cartridge FindCartridgeBySerialNumber(string serialNumber)
+        {
+            // Создание и открытие соединения с базой данных
+            using (var connection = new SqliteConnection("Data Source=cartridges.db"))
+            {
+                connection.Open();
+
+                // Создание команды SQL для поиска картриджа по серийному номеру
+                var command = connection.CreateCommand();
+                command.CommandText = @"
+                SELECT Cartridges.*, TypeCartridge.NameType, Status.NameStatus 
+                FROM Cartridges 
+                INNER JOIN TypeCartridge ON Cartridges.idType = TypeCartridge.idType
+                INNER JOIN Status ON Cartridges.idStatus = Status.idStatus
+                WHERE SerialNumber = @serialNumber";
+
+                // Добавление параметра в команду SQL
+                command.Parameters.AddWithValue("@serialNumber", serialNumber);
+
+                // Выполнение команды и обработка результатов
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        // Создание объекта Cartridge и заполнение его данными из базы данных
+                        var cartridge = new Cartridge
+                        {
+                            IdCartridge = reader.GetInt32(0),
+                            IdType = reader.GetInt32(1),
+                            Model = reader.GetString(2),
+                            SerialNumber = reader.GetString(3),
+                            InstallationDate = DateTime.Parse(reader.GetString(4)),
+                            IdStatus = reader.GetInt32(5),
+                            Comment = reader.IsDBNull(6) ? null : reader.GetString(6),
+                            TypeCartridge = new TypeCartridge { NameType = reader.GetString(7) },
+                            Status = new Status { NameStatus = reader.GetString(8) }
+                        };
+
+                        return cartridge; // Возвращение найденного картриджа
+                    }
+                }
+            }
+
+            return null; // Возвращение null, если картридж не найден
+        }
+
     }
 }
