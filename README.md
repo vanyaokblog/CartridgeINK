@@ -93,3 +93,9 @@
 </br>Добавление нового пользователя
 </br> </br> </br>
 </p>
+
+<p align="center">
+  <img <img src="https://github.com/vanyaokblog/CartridgeINK/blob/main/Screenshots/Search.png">
+</br>Поиск
+</br> </br> </br>
+</p>
