@@ -166,10 +166,10 @@ namespace InkCartridge
                 FROM Cartridges 
                 INNER JOIN TypeCartridge ON Cartridges.idType = TypeCartridge.idType
                 INNER JOIN Status ON Cartridges.idStatus = Status.idStatus
-                WHERE SerialNumber LIKE @substring OR Model LIKE @substring OR TypeCartridge.NameType LIKE @substring";
+                WHERE LOWER(SerialNumber) LIKE @substring OR LOWER(Model) LIKE @substring OR LOWER(TypeCartridge.NameType) LIKE @substring";
 
                 // Добавление параметра в команду SQL
-                command.Parameters.AddWithValue("@substring", "%" + substring + "%");
+                command.Parameters.AddWithValue("@substring", "%" + substring.ToLower() + "%");
 
                 // Выполнение команды и обработка результатов
                 using (var reader = command.ExecuteReader())
