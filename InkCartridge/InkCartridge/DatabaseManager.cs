@@ -148,30 +148,33 @@ namespace InkCartridge
             cartridge.Status.NameStatus = newStatusName;
         }
 
-        // Метод для поиска картриджа по серийному номеру в базе данных
-        public static Cartridge FindCartridgeBySerialNumber(string serialNumber)
+        // Метод для поиска картриджей по подстроке в базе данных
+        public static List<Cartridge> FindCartridgesBySubstring(string substring)
         {
+            // Создание списка для хранения найденных картриджей
+            List<Cartridge> foundCartridges = new List<Cartridge>();
+
             // Создание и открытие соединения с базой данных
             using (var connection = new SqliteConnection("Data Source=cartridges.db"))
             {
                 connection.Open();
 
-                // Создание команды SQL для поиска картриджа по серийному номеру
+                // Создание команды SQL для поиска картриджей по подстроке
                 var command = connection.CreateCommand();
                 command.CommandText = @"
                 SELECT Cartridges.*, TypeCartridge.NameType, Status.NameStatus 
                 FROM Cartridges 
                 INNER JOIN TypeCartridge ON Cartridges.idType = TypeCartridge.idType
                 INNER JOIN Status ON Cartridges.idStatus = Status.idStatus
-                WHERE SerialNumber = @serialNumber";
+                WHERE SerialNumber LIKE @substring OR Model LIKE @substring OR TypeCartridge.NameType LIKE @substring";
 
                 // Добавление параметра в команду SQL
-                command.Parameters.AddWithValue("@serialNumber", serialNumber);
+                command.Parameters.AddWithValue("@substring", "%" + substring + "%");
 
                 // Выполнение команды и обработка результатов
                 using (var reader = command.ExecuteReader())
                 {
-                    if (reader.Read())
+                    while (reader.Read())
                     {
                         // Создание объекта Cartridge и заполнение его данными из базы данных
                         var cartridge = new Cartridge
@@ -187,12 +190,14 @@ namespace InkCartridge
                             Status = new Status { NameStatus = reader.GetString(8) }
                         };
 
-                        return cartridge; // Возвращение найденного картриджа
+                        // Добавление картриджа в список найденных картриджей
+                        foundCartridges.Add(cartridge);
                     }
                 }
             }
 
-            return null; // Возвращение null, если картридж не найден
+            // Возвращение списка найденных картриджей
+            return foundCartridges;
         }
 
     }

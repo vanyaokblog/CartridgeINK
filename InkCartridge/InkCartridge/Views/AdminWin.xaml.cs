@@ -93,21 +93,21 @@ namespace InkCartridge.Views
         // Обработчик события нажатия кнопки поиска
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            string serialNumber = SerialNumberTextBox.Text; // Получение серийного номера из текстового поля
-            List<Cartridge> cartridges = DatabaseManager.LoadCartridges(); // Получение списка картриджей из базы данных
+            // Получение подстроки из текстового поля
+            string substring = SearchTextBox.Text;
 
-            // Поиск картриджа по серийному номеру
-            Cartridge foundCartridge = cartridges.Find(c => c.SerialNumber == serialNumber);
+            // Поиск картриджей по подстроке
+            List<Cartridge> foundCartridges = DatabaseManager.FindCartridgesBySubstring(substring);
 
-            if (foundCartridge != null) // Если картридж найден
+            if (foundCartridges.Count == 0) // Если список пуст
             {
-                // Подсветка картриджа в списке
-                int index = cartridges.IndexOf(foundCartridge);
-                CartridgesDataGrid.SelectedIndex = index;
+                MessageBox.Show("По вашему запросу ничего не найдено."); // Отображение сообщения
             }
-            else // Если картридж не найден
+            else
             {
-                MessageBox.Show("Картридж с таким серийным номером не найден.");
+                // Установка найденных картриджей в качестве источника данных для DataGrid
+                CartridgesDataGrid.ItemsSource = foundCartridges;
+                CartridgesDataGrid.Items.Refresh();
             }
         }
 
