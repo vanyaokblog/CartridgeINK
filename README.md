@@ -52,6 +52,8 @@
 - **Таблица «Status»** _(idStatus, NameStatus)_ содержит информацию о состоянии картриджей
 - **Таблица «Cartridges»** _(idCartridge, idType, Model, SerialNumber, InstallationDate, idStatus, Comment)_ содержит информацию о картриджах
 
+# Видеодемонстрация:
+Видеодемонстрацию использования приложения доступна [по этой ссылке](https://drive.google.com/drive/folders/14iGYWFRxGSbEvgQRnVmNa5-YaJR1TH6z).
 
 # Скриншоты приложения:
 
